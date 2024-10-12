@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import axios from "axios"
 import "./DefaultPage.css"
@@ -6,7 +6,7 @@ import "./DefaultPage.css"
 const DefaultPage = () => {
   const navigate = useNavigate()
   const [searchItem, setSearchItem] = useState("");
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   const searchImages = (e)=>{
     e.preventDefault();
@@ -15,7 +15,7 @@ const DefaultPage = () => {
     axios.get("https://api.unsplash.com/search/photos",{
       params:{query: searchItem},
       headers: {
-        "Authorization": `Client-ID ACCESS KEY`,
+        "Authorization": `Client-ID ACCESS-KEY`,
       }
     })
     .then(res=>{
