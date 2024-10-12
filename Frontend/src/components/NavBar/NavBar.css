@@ -1,0 +1,19 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4vh 10vh 3vh 10vh;
+}
+
+.menu{
+    display: flex;
+    gap: 2vh;
+    justify-content: space-between;
+}
+
+.menu h4{
+    color: #6C727F;
+    padding: 1vh 3vh;
+    font-size: 14px;
+    font-weight: 500;
+}

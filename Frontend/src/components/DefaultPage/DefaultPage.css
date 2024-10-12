@@ -1,0 +1,63 @@
+.default{
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+    overflow: hidden;
+}
+
+.left{
+    height: 90vh;
+    width: 30vw;
+    background: url("../../assets/hero-left.png");
+    background-position: center;
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.right{
+    height: 90vh;
+    width: 30vw;
+    background: url("../../assets/hero-right.png");
+    background-position: center;
+    object-fit: cover;
+}
+
+.center{
+    height: 90vh;
+    width: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+}
+
+h1{
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: center;
+    align-items: center;
+}
+button{
+    padding: 2vh 6vh;
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: Be Vietnam Pro;
+}
+input{
+    font-family: Be Vietnam Pro;
+    width: 100%;
+    padding: 3vh 2vh;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+}
