@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useLocation } from "react-router-dom";
-import { useNavigate} from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import "./SearchResult.css";
 import bgGrad from "./../../assets/gradiend-bg.svg";
 import axios from "axios";
@@ -8,7 +8,6 @@ import axios from "axios";
 const SearchResult = () => {
   const navigate = useNavigate()
   const [searchItem, setsearchItem] = useState("");
-
   const location = useLocation();
   const { images } = location.state || { images: [] };
 
@@ -20,7 +19,7 @@ const SearchResult = () => {
         query:searchItem,
       },
       headers:{
-        Authorization: `Client-ID ACCESS-KEY`,
+        Authorization: `Client-ID IopYdnsDXf6acMGS-lHg269KTvw2CX_7Wh7Dfl_KY_I`,
       }
     })
     .then(res=>{

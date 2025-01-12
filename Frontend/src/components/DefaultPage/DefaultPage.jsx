@@ -11,11 +11,10 @@ const DefaultPage = () => {
   const searchImages = (e)=>{
     e.preventDefault();
     console.log("clicked")
-
     axios.get("https://api.unsplash.com/search/photos",{
       params:{query: searchItem},
       headers: {
-        "Authorization": `Client-ID ACCESS-KEY`,
+        "Authorization": `Client-ID IopYdnsDXf6acMGS-lHg269KTvw2CX_7Wh7Dfl_KY_I`,
       }
     })
     .then(res=>{
