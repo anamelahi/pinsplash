@@ -6,7 +6,7 @@ import "./DefaultPage.css"
 const DefaultPage = () => {
   const navigate = useNavigate()
   const [searchItem, setSearchItem] = useState("");
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const searchImages = (e)=>{
     e.preventDefault();
@@ -15,12 +15,15 @@ const DefaultPage = () => {
       params:{query: searchItem},
       headers: {
         "Authorization": `Client-ID IopYdnsDXf6acMGS-lHg269KTvw2CX_7Wh7Dfl_KY_I`,
-      }
+      }      
     })
     .then(res=>{
       navigate('/results',{state:{images:res.data.results}})
-      // setImages(res.data.results)
-    })
+      res.data.results.forEach(photos => {
+        console.log(photos.id)
+      });
+      setImages(res.data.results)
+    }) 
     .catch(err=>console.log(err))
   }
   return (
@@ -36,7 +39,6 @@ const DefaultPage = () => {
           
         </div>
         <div className="right"></div>
-
     </div>
   )
 }

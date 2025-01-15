@@ -11,3 +11,30 @@ html,body{
   height: 100%;
   width: 100%;
 }
+
+
+/* IMAGE DETAILS COMPONENT */
+.image-details{
+  margin: auto;
+  margin-top: 50px;
+  padding: 20px;
+  /* justify-content: center; */
+  /* align-items: center; */
+  display: flex;
+  flex-direction: row;
+  gap: 10vh;
+  width: 60vw;
+}
+.image{
+  height: 70vh;
+  width: fit-content;
+}
+.image img{
+  height: 100%;
+  width: 100%;
+}
+.details{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
