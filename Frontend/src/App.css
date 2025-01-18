@@ -46,6 +46,7 @@ html,body{
   top: 15vh;
   border-radius: 6px;
   padding: 20px;
+  overflow: scroll;
 }
 .add-to-coll{
   display: flex;
