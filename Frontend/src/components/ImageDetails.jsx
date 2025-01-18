@@ -25,10 +25,10 @@ const ImageDetails = () => {
       const newCollection = {
         name: newCollectionName,
         images: [],
-        count:0,
+        count: 0,
       };
       setCollection([...collection, newCollection]);
-    //   console.log(collection);
+      //   console.log(collection);
 
       setNewCollectionName("");
     }
@@ -43,11 +43,11 @@ const ImageDetails = () => {
             count: p.images.length + 1, // Increment count
           };
         }
-        return p; 
+        return p;
       })
     );
   };
-  
+
   useEffect(() => {
     const body = document.body;
     if (popUp) {
@@ -78,11 +78,13 @@ const ImageDetails = () => {
       {/* POP UP WINDOW (modal) */}
       {popUp && (
         <div className="pop-up">
-            <div className="add-to-coll">
+          <div className="add-to-coll">
             <h2>Add to Collections</h2>
-            <button className="cross" onClick={()=>setPopUp(false)}><MdOutlineCancel/></button>
-            </div>
-          
+            <button className="cross" onClick={() => setPopUp(false)}>
+              <MdOutlineCancel />
+            </button>
+          </div>
+
           <div className="new">
             <input
               type="text"
@@ -90,17 +92,31 @@ const ImageDetails = () => {
               onChange={handleNewCollection}
               placeholder="Enter collection name"
             />
-            <button style={{padding: '10px',width:"190px"}} onClick={handleNewCollectionBtn}>New Collection</button>
+            <button
+              style={{ padding: "10px", width: "190px" }}
+              onClick={handleNewCollectionBtn}
+            >
+              New Collection
+            </button>
           </div>
           <div className="existing">
             <h3>Existing Collections</h3>
             {collection.length > 0 ? (
               collection.map((collection, index) => (
-                <div key={index} onClick={()=>handleAdd(collection.name)} className="collection-name">
-                  <img className="thumbnail" src={collection.images[0].urls.thumb} alt="" />
+                <div
+                  key={index}
+                  onClick={() => handleAdd(collection.name)}
+                  className="collection-name"
+                >
+                  {collection.images.length > 0 ? (
+                    <img className="thumbnail" src={collection.images[0].urls.thumb} alt="" />
+                  ) : (
+                    // <p>No images in this collection</p>
+                    <p></p>
+                  )}
                   <div>
-                  <p>{collection.name}</p>
-                  <p>{collection.count} photos</p>
+                    <p>{collection.name}</p>
+                    <p>{collection.count} photos</p>
                   </div>
                 </div>
               ))
