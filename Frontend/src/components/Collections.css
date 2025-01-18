@@ -1,0 +1,19 @@
+.header-coll h2{
+    font-size: 3rem;
+    font-weight: 500;
+    letter-spacing: -2px;
+    background: linear-gradient(to right, #F2C593, #D687A5, #8A3282);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+.header-coll{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #d66e6e; */
+    margin: 0 75vh;
+}
+.header-coll p{
+    text-align: center;
+}
