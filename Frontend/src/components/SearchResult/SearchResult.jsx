@@ -4,6 +4,7 @@ import { useNavigate, Navigate } from 'react-router-dom'
 import "./SearchResult.css";
 import bgGrad from "./../../assets/gradiend-bg.svg";
 import axios from "axios";
+import env from "dotenv"
 
 const SearchResult = () => {
   const navigate = useNavigate()
@@ -20,7 +21,7 @@ const SearchResult = () => {
         query:searchItem,
       },
       headers:{
-        Authorization: `Client-ID IopYdnsDXf6acMGS-lHg269KTvw2CX_7Wh7Dfl_KY_I`,
+        Authorization: `${process.env.UNSPLASH_API_URL}`,
       }
     })
     .then(res=>{

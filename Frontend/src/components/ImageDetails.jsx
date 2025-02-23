@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import axios from "axios";
 import "../App.css";
+import env from "dotenv"
 
 const ImageDetails = () => {
   const location = useLocation();
@@ -27,7 +28,7 @@ const ImageDetails = () => {
     if (!newCollectionName.trim()) return;
 
     try {
-      const response = await axios.post("http://localhost:3000/collections", {
+      const response = await axios.post(`${process.env.BACKEND_API_URL}/collections`, {
         name: newCollectionName,
       });
 
@@ -42,7 +43,7 @@ const ImageDetails = () => {
   // Add image to a collection (API call)
   const handleAdd = async (collectionName) => {
     try {
-      await axios.post(`http://localhost:3000/collections/${collectionName}/add-image`, {
+      await axios.post(`${process.env.BACKEND_API_URL}/collections/${collectionName}/add-image`, {
         image_url: image.urls.full, // sending the image URL
       });
   
@@ -65,7 +66,7 @@ const ImageDetails = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/collections");
+        const response = await axios.get(`${process.env.BACKEND_API_URL}/collections`);
         setCollection(response.data);
       } catch (error) {
         console.error("Error fetching collections:", error);

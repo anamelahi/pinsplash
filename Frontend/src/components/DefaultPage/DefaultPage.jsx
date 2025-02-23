@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import axios from "axios"
 import "./DefaultPage.css"
+import env from "dotenv"
 
 const DefaultPage = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ const DefaultPage = () => {
     axios.get("https://api.unsplash.com/search/photos",{
       params:{query: searchItem},
       headers: {
-        "Authorization": `Client-ID IopYdnsDXf6acMGS-lHg269KTvw2CX_7Wh7Dfl_KY_I`,
+        "Authorization": `${process.env.UNSPLASH_API_KEY}`,
       }      
     })
     .then(res=>{

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Collections.css";
 import axios from "axios";
 // import { useCollection } from "../context/CollectionContext";
+import env from "dotenv"
 
 const Collections = () => {
   const [collections, setCollections] = useState([]);
@@ -9,7 +10,7 @@ const Collections = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/collections");
+        const response = await axios.get(`${process.env.BACKEND_API_URL}/collections`);
         setCollections(response.data);
       } catch (error) {
         console.log("ERROR FETCHING COLLECTIONS:", error);
