@@ -12,14 +12,14 @@ const port = 3000;
 env.config();
 
 const db = new pg.Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: process.env.PORT,
-})
+    connectionString: process.env.DATABASE_URL, 
+    ssl: {
+        rejectUnauthorized: false, 
+    },
+});
 
 db.connect();
+
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cors());
@@ -35,6 +35,17 @@ app.get("/collections", async (req, res) => {
             SELECT collection_name, image_url FROM collection_images
         `);
 
+        // let query = await db.query(`
+        //     SELECT 
+        //         collection_images.*, 
+        //         collections.id AS collection_id, 
+        //         collections.collection_name AS collection_title
+        //     FROM collection_images
+        //     JOIN collections 
+        //     ON LOWER(TRIM(collection_images.collection_name)) = LOWER(TRIM(collections.collection_name))
+        // `);
+        // console.log(query.rows);
+        
         let collections = collectionsQuery.rows.map(collection => {
             let images = imagesQuery.rows.filter(img => img.collection_name === collection.collection_name);
             return {
