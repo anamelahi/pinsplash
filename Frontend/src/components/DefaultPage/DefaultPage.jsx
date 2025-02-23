@@ -15,7 +15,7 @@ const DefaultPage = () => {
     axios.get("https://api.unsplash.com/search/photos",{
       params:{query: searchItem},
       headers: {
-        "Authorization": `${process.env.UNSPLASH_API_KEY}`,
+        "Authorization": `${process.env.VITE_UNSPLASH_API_KEY}`,
       }      
     })
     .then(res=>{

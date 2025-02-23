@@ -10,7 +10,7 @@ const Collections = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get(`${process.env.BACKEND_API_URL}/collections`);
+        const response = await axios.get(`${process.env.VITE_BACKEND_API_URL}/collections`);
         setCollections(response.data);
       } catch (error) {
         console.log("ERROR FETCHING COLLECTIONS:", error);

@@ -17,22 +17,20 @@ const ImageDetails = () => {
     setPopUp(true);
   };
 
-  // Handle input change for new collection name
   const handleNewCollection = (e) => {
     setNewCollectionName(e.target.value);
   };
 
-  // Create a new collection (API call)
   const handleNewCollectionBtn = async (e) => {
     e.preventDefault();
     if (!newCollectionName.trim()) return;
 
     try {
-      const response = await axios.post(`${process.env.BACKEND_API_URL}/collections`, {
+      const response = await axios.post(`${process.env.VITE_BACKEND_API_URL}/collections`, {
         name: newCollectionName,
       });
 
-      // Update UI with new collection
+      // Update UI 
       setCollection([...collection, response.data]);
       setNewCollectionName(""); // Clear input
     } catch (error) {
@@ -40,10 +38,9 @@ const ImageDetails = () => {
     }
   };
 
-  // Add image to a collection (API call)
   const handleAdd = async (collectionName) => {
     try {
-      await axios.post(`${process.env.BACKEND_API_URL}/collections/${collectionName}/add-image`, {
+      await axios.post(`${process.env.VITE_BACKEND_API_URL}/collections/${collectionName}/add-image`, {
         image_url: image.urls.full, // sending the image URL
       });
   
@@ -66,7 +63,7 @@ const ImageDetails = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get(`${process.env.BACKEND_API_URL}/collections`);
+        const response = await axios.get(`${process.env.VITE_BACKEND_API_URL}/collections`);
         setCollection(response.data);
       } catch (error) {
         console.error("Error fetching collections:", error);
