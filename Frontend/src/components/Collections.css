@@ -17,3 +17,15 @@
 .header-coll p{
     text-align: center;
 }
+
+.coll{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.thumbnail{
+    height: 70vh;
+    width: 25vw;
+}

@@ -1,67 +1,90 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
+import axios from "axios";
 import "../App.css";
 
 const ImageDetails = () => {
   const location = useLocation();
   const image = location.state;
-  const [collection, setCollection] = useState([]); //
-  const [newCollectionName, setNewCollectionName] = useState(""); //to name a new collection
-  const [popUp, setPopUp] = useState(false); //for modal
+  const [collection, setCollection] = useState([]);
+  const [newCollectionName, setNewCollectionName] = useState("");
+  const [popUp, setPopUp] = useState(false);
 
+  // Open modal
   const handleAddToCollection = () => {
     setPopUp(true);
-    console.log("clicked");
   };
+
+  // Handle input change for new collection name
   const handleNewCollection = (e) => {
-    // e.preventDefault();
     setNewCollectionName(e.target.value);
-    // console.log(newCollectionName);
   };
-  const handleSavedCollection = () => {};
-  const handleNewCollectionBtn = () => {
-    if (newCollectionName) {
-      const newCollection = {
+
+  // Create a new collection (API call)
+  const handleNewCollectionBtn = async (e) => {
+    e.preventDefault();
+    if (!newCollectionName.trim()) return;
+
+    try {
+      const response = await axios.post("http://localhost:3000/collections", {
         name: newCollectionName,
-        images: [],
-        count: 0,
-      };
-      setCollection([...collection, newCollection]);
-      //   console.log(collection);
+      });
 
-      setNewCollectionName("");
+      // Update UI with new collection
+      setCollection([...collection, response.data]);
+      setNewCollectionName(""); // Clear input
+    } catch (error) {
+      console.error("Error creating collection:", error);
     }
   };
-  const handleAdd = (name) => {
-    setCollection((prevCol) =>
-      prevCol.map((p) => {
-        if (p.name === name) {
-          return {
-            ...p,
-            images: [...p.images, image],
-            count: p.images.length + 1, // Increment count
-          };
-        }
-        return p;
-      })
-    );
-  };
 
+  // Add image to a collection (API call)
+  const handleAdd = async (collectionName) => {
+    try {
+      await axios.post(`http://localhost:3000/collections/${collectionName}/add-image`, {
+        image_url: image.urls.full, // sending the image URL
+      });
+  
+      // UI updates
+      setCollection((prev) =>
+        prev.map((col) =>
+          col.collection_name === collectionName
+            ? { ...col, count: (col.count ?? 0) + 1 }
+            : col
+        )
+      );
+      
+    } catch (error) {
+      console.error("Error adding image to collection:", error);
+    }
+  };
+  
+
+  // Fetch collections from the database
   useEffect(() => {
-    const body = document.body;
-    if (popUp) {
-      body.classList.add("dim-bg");
-    }
-
-    return () => {
-      body.classList.remove("dim-bg");
+    const fetchCollections = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/collections");
+        setCollection(response.data);
+      } catch (error) {
+        console.error("Error fetching collections:", error);
+      }
     };
+
+    fetchCollections();
+  }, []);
+
+  // Dim background when modal is open
+  useEffect(() => {
+    document.body.classList.toggle("dim-bg", popUp);
+    return () => document.body.classList.remove("dim-bg");
   }, [popUp]);
 
   if (!image) {
-    return <div> the details of this image is not available. </div>;
+    return <div>The details of this image are not available.</div>;
   }
+
   return (
     <div className="image-details">
       <div className="image">
@@ -69,13 +92,11 @@ const ImageDetails = () => {
       </div>
       <div className="details">
         <h4>{image.user.name}</h4>
-        <p>
-          Published on {new Date(image.created_at).toLocaleDateString("en-US")}
-        </p>
+        <p>Published on {new Date(image.created_at).toLocaleDateString("en-US")}</p>
         <button onClick={handleAddToCollection}>Add to Collection</button>
       </div>
 
-      {/* POP UP WINDOW (modal) */}
+      {/* POP-UP MODAL */}
       {popUp && (
         <div className="pop-up">
           <div className="add-to-coll">
@@ -85,39 +106,32 @@ const ImageDetails = () => {
             </button>
           </div>
 
-          <div className="new">
+          {/* NEW COLLECTION FORM */}
+          <form className="new" onSubmit={handleNewCollectionBtn}>
             <input
               type="text"
+              name="name"
+              placeholder="Enter collection name"
               value={newCollectionName}
               onChange={handleNewCollection}
-              placeholder="Enter collection name"
             />
-            <button
-              style={{ padding: "10px", width: "190px" }}
-              onClick={handleNewCollectionBtn}
-            >
+            <button type="submit" style={{ padding: "10px", width: "190px" }}>
               New Collection
             </button>
-          </div>
+          </form>
+
+          {/* EXISTING COLLECTIONS */}
           <div className="existing">
             <h3>Existing Collections</h3>
             {collection.length > 0 ? (
-              collection.map((collection, index) => (
+              collection.map((col, index) => (
                 <div
                   key={index}
-                  onClick={() => handleAdd(collection.name)}
+                  onClick={() => handleAdd(col.collection_name)}
                   className="collection-name"
                 >
-                  {collection.images.length > 0 ? (
-                    <img className="thumbnail" src={collection.images[0].urls.thumb} alt="" />
-                  ) : (
-                    // <p>No images in this collection</p>
-                    <p></p>
-                  )}
-                  <div>
-                    <p>{collection.name}</p>
-                    <p>{collection.count} photos</p>
-                  </div>
+                  <p>{col.collection_name}</p>
+                  <p>{col.count ?? 0} photos</p>
                 </div>
               ))
             ) : (

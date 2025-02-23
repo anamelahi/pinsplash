@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Collections.css";
-import { useCollection } from "../context/CollectionContext";
+import axios from "axios";
+// import { useCollection } from "../context/CollectionContext";
 
 const Collections = () => {
-  const { collections } = useCollection();
+  const [collections, setCollections] = useState([]);
+  const [thumbnails, setThumbnails] = useState([]);
+  // const { collections } = useCollection();
+  // useEffect(() => {
+  //   const fetchCollections = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3000/collections");
+  //       setCollections(response.data);
+  //       setThumbnails(response.data);
+  //     } catch (error) {
+  //       console.log("ERROR FETCHING COLLECTIONS:", error);
+  //     }
+  //   };
+  //   fetchCollections();
+  // }, []);
+  useEffect(() => {
+    const fetchCollections = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/collections");
+        setCollections(response.data);
+      } catch (error) {
+        console.log("ERROR FETCHING COLLECTIONS:", error);
+      }
+    };
+    fetchCollections();
+  }, []);
+
   return (
     <div className="collections-page">
       <div className="header-coll">
@@ -13,15 +40,30 @@ const Collections = () => {
           under the Unsplash License.
         </p>
       </div>
-      {collections.length === 0 ? (
-        <p>No Collections available</p>
-      ) : (
-        collections.map((collection, i) => (
-          <div key={i} className="collections">
-            <h3>{collection.name}</h3>
+      {/* <div className="coll">
+        {collections.map((collection,index)=>(
+          <div key={index} className="collections-div">
+            <div className="thumbnail">
+              <img src={collection.thumbnail} alt={collection.name} />
+            </div>
+          <div key={index}>{collection.collection_name}</div>
           </div>
-        ))
-      )}
+        ))}
+      </div> */}
+      <div className="coll">
+        {collections.map((collection, index) => (
+          <div key={index} className="collections-div">
+            <div className="thumbnail">
+              <img
+                src={collection.thumbnail}
+                alt={collection.collection_name}
+                className="thumbnail"
+              />
+            </div>
+            <div>{collection.collection_name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
